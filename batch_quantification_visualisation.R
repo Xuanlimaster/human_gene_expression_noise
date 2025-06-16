@@ -9,11 +9,11 @@ dir_kidney <- "human_adult_kidney"
 dir_lung <- "human_adult_lung"
 
 sce_liver_filtered_normalised <- 
-  readRDS(file.path(dir_liver, "sce_liver_filtered_normalised.rds"))
+  readRDS(file.path(dir_liver, "sce_liver_filtered_normalized.rds"))
 sce_kidney_filtered_normalised <- 
-  readRDS(file.path(dir_kidney, "sce_kidney_filtered_normalised.rds"))
+  readRDS(file.path(dir_kidney, "sce_kidney_filtered_normalized.rds"))
 sce_lung_filtered_normalised <-
-  readRDS(file.path(dir_lung, "sce_lung_filtered_normalised.rds"))
+  readRDS(file.path(dir_lung, "sce_lung_filtered_normalized.rds"))
 
 # Process and quantify batch effects in normalized single-cell data:
 #   - Creates output directory for QC results if not exists
