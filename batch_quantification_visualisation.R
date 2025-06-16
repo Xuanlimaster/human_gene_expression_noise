@@ -8,11 +8,11 @@ dir_liver <- "human_adult_liver"
 dir_kidney <- "human_adult_kidney"
 dir_lung <- "human_adult_lung"
 
-sce_liver_filtered_normalised <- 
+sce_liver_filtered_normalized <- 
   readRDS(file.path(dir_liver, "sce_liver_filtered_normalized.rds"))
-sce_kidney_filtered_normalised <- 
+sce_kidney_filtered_normalized <- 
   readRDS(file.path(dir_kidney, "sce_kidney_filtered_normalized.rds"))
-sce_lung_filtered_normalised <-
+sce_lung_filtered_normalized <-
   readRDS(file.path(dir_lung, "sce_lung_filtered_normalized.rds"))
 
 # Process and quantify batch effects in normalized single-cell data:
@@ -20,7 +20,7 @@ sce_lung_filtered_normalised <-
 #   - Visualizes batch effects using UMAP clustering
 #   - Quantifies batch effects through centroid analysis
 #   - Saves visualization plots and quantitative metrics
-process_batch_effects <- function(sce_normalised,dir) {
+process_batch_effects <- function(sce_normalized,dir) {
   # Create QC output directory if not exists
   #   - dir_tissue: Parent directory path
   #   - qc_path: Subdirectory for storing QC plots ("QC plots")
@@ -35,7 +35,7 @@ process_batch_effects <- function(sce_normalised,dir) {
   #   - Applies classic theme with centered bold title
   #   - Saves high-resolution PNG (600dpi) with specified dimensions
   p4 <- plotReducedDim(
-    sce_normalised,
+    sce_normalized,
     dimred = "UMAP",
     colour_by = "BatchInfo",
     point_size = 1.5
@@ -58,9 +58,9 @@ process_batch_effects <- function(sce_normalised,dir) {
   #     - Average distance from centroid (dispersion measure)
   #   - Adds tissue identifier from directory name
   #   - Rescales batch effect score to 0-1 range for comparability
-  batch_score <- reducedDim(sce_normalised, "UMAP") %>% 
+  batch_score <- reducedDim(sce_normalized, "UMAP") %>% 
     as.data.frame() %>%
-    mutate(Batch = sce_normalised$BatchInfo) %>% 
+    mutate(Batch = sce_normalized$BatchInfo) %>% 
     group_by(Batch) %>% 
     summarise(
       Centroid_X = mean(UMAP1),
@@ -81,6 +81,6 @@ process_batch_effects <- function(sce_normalised,dir) {
   write_csv(batch_score, score_path)
 }
 
-process_batch_effects(sce_liver_filtered_normalised, dir_liver)
-process_batch_effects(sce_kidney_filtered_normalised, dir_kidney)
-process_batch_effects(sce_lung_filtered_normalised, dir_lung)
+process_batch_effects(sce_liver_filtered_normalized, dir_liver)
+process_batch_effects(sce_kidney_filtered_normalized, dir_kidney)
+process_batch_effects(sce_lung_filtered_normalized, dir_lung)
